@@ -36,7 +36,7 @@ public class Grep {
 
     }
 
-    private static void doMain(File dir, String word, boolean r, boolean v, boolean i) {
+    public static void doMain(File dir, String word, boolean r, boolean v, boolean i) {
 
         try {
             List<String> lines = Files.readAllLines(dir.toPath());
@@ -51,7 +51,7 @@ public class Grep {
         }
     }
 
-    private static boolean checker(String cur, String w, boolean r, boolean v, boolean i) {
+    public static boolean checker(String cur, String w, boolean r, boolean v, boolean i) {
         String current = cur;
         String word = w;
 
