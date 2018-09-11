@@ -17,7 +17,8 @@ class GrepTest {
 
     @Test
     void test1() throws IOException, CmdLineException {
-        String[] command = "мама .\\src\\test\\resources\\Files\\input1.txt".split(" ");
+        File input1 = new File("src"+ File.separator +"test" + File.separator + "resources"+ File.separator +"Files"+ File.separator,"input1.txt");
+        String[] command = new String[]{"мама", String.valueOf(input1)};
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         PrintStream old = System.out;
         PrintStream ps = new PrintStream(baos);
@@ -25,14 +26,15 @@ class GrepTest {
         Grep.main(command);
         System.out.flush();
         System.setOut(old);
-        String[] result = baos.toString().split("\n");
-        assertTrue(Arrays.equals(result, (new String[]{"qwery dva dva dva мама.\r", "fds dsfsd мама dsfdf\r", "Done\r"})));
+        String ls = System.getProperty("line.separator");
+        String[] result =  baos.toString().split(ls);
+        assertTrue(Arrays.equals(result, (new String[]{"qwery dva dva dva мама.", "fds dsfsd мама dsfdf", "Done"})));
     }
 
     @Test
     void test2() throws IOException, CmdLineException {
-        String[] command = "жди -v -i .\\src\\test\\resources\\Files\\input2.txt".split(" ");
-
+        File input2 = new File("src"+ File.separator +"test" + File.separator + "resources"+ File.separator +"Files"+ File.separator,"input2.txt");
+        String[] command = new String[] {"жди","-v","-i", String.valueOf(input2)};
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         PrintStream old = System.out;
         PrintStream ps = new PrintStream(baos);
@@ -40,13 +42,15 @@ class GrepTest {
         Grep.main(command);
         System.out.flush();
         System.setOut(old);
-        String[] result = baos.toString().split("\n");
-        assertTrue(Arrays.equals(result, (new String[]{"-v is set\r", "-i is set\r", "\uFEFFЖди меня, и я вернусь.\r", "Желтые дожди...\r", "Done\r"})));
+        String ls = System.getProperty("line.separator");
+        String[] result = baos.toString().split(ls);
+        assertTrue(Arrays.equals(result, (new String[]{"-v is set", "-i is set", "\uFEFFЖди меня, и я вернусь.", "Желтые дожди...", "Done"})));
     }
 
     @Test
     void test3() throws IOException, CmdLineException {
-        String[] command = "[a-z]+\\d+ -r -v .\\src\\test\\resources\\Files\\input3.txt".split(" ");
+        File input3 = new File("src"+ File.separator +"test" + File.separator + "resources"+ File.separator +"Files"+ File.separator,"input3.txt");
+        String[] command = new String[]{ "[a-z]+\\d+", "-r", "-v", String.valueOf(input3)};
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         PrintStream old = System.out;
         PrintStream ps = new PrintStream(baos);
@@ -54,14 +58,15 @@ class GrepTest {
         Grep.main(command);
         System.out.flush();
         System.setOut(old);
-        String[] result = baos.toString().split("\n");
-        assertTrue(Arrays.equals(result, (new String[]{"-r is set\r", "-v is set\r", "aaa bbbb ccccc ddddd\r", "qq bb 1\r", "abcd dcba qwerty uiop\r", "lol kek mda\r", "Done\r"})));
+        String ls = System.getProperty("line.separator");
+        String[] result = baos.toString().split(ls);
+        assertTrue(Arrays.equals(result, (new String[]{"-r is set", "-v is set", "aaa bbbb ccccc ddddd", "qq bb 1", "abcd dcba qwerty uiop", "lol kek mda", "Done"})));
     }
 
     @Test
     void test4() throws IOException, CmdLineException {
-        String[] command = "[a-z]+\\d+ -r -v .\\src\\test\\resources\\Files\\input228.txt".split(" ");
-
+        File input228 = new File("src"+ File.separator +"test" + File.separator + "resources"+ File.separator +"Files"+ File.separator,"input228.txt");
+        String[] command = new String[]{ "[a-z]+\\d+", "-r", "-v",String.valueOf(input228)};
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         PrintStream old = System.out;
         PrintStream ps = new PrintStream(baos);
@@ -70,14 +75,14 @@ class GrepTest {
         Grep.main(command);
         System.err.flush();
         System.setOut(old);
-        String[] result = baos.toString().split("\n");
-        assertTrue(Arrays.equals(result, (new String[]{"-r is set\r", "-v is set\r", "selected file path does not exist: .\\src\\test\\resources\\Files\\input228.txt\r"})));
+        String ls = System.getProperty("line.separator");
+        String[] result = baos.toString().split(ls);
+        assertTrue(Arrays.equals(result, (new String[]{"-r is set", "-v is set", "selected file path does not exist: " + String.valueOf(input228)})));
     }
 
     @Test
-    void test5() throws IOException, CmdLineException {
-        String[] command = "lol -v".split(" ");
-
+    void test5() throws IOException {
+        String[] command =  new String[]{"lol -v"};
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         PrintStream old = System.out;
         PrintStream ps = new PrintStream(baos);
@@ -90,8 +95,8 @@ class GrepTest {
         }
         System.err.flush();
         System.setOut(old);
-
-        String[] result = baos.toString().split("\n");
-        assertTrue(Arrays.equals(result, (new String[]{"wrong input: Argument \"dir\" is required\r"})));
+        String ls = System.getProperty("line.separator");
+        String[] result = baos.toString().split(ls);
+        assertTrue(Arrays.equals(result, (new String[]{"wrong input: Argument \"dir\" is required"})));
     }
 }
